@@ -44,7 +44,7 @@ app.get('/api/items', (req, res) => {
     }
 
     const items = results.map(item => ({
-      id: item.id,
+      id: item.item_id,
       name: item.name,
       stock: item.stock,
       image: item.image,
@@ -59,7 +59,7 @@ app.get('/api/items', (req, res) => {
 //view item
 app.get('/api/showItem/:id', function(req, res) {
   const id = req.params.id;
-  const sql = `SELECT * FROM items WHERE id = ?`;
+  const sql = `SELECT * FROM items WHERE item_id = ?`;
   
   conn.query(sql, [id], (err, result) => {
     if (err) {
@@ -152,9 +152,9 @@ app.put('/api/editItem/:id', function(req, res) {
     description: description,
   };
 
-  const sql = `UPDATE items SET ? WHERE id = ?`;
+  const sql = `UPDATE items SET ? WHERE item_id = ?`;
 
-  conn.query(`SELECT * FROM items WHERE id = ?`, [id], (err, result) => {
+  conn.query(`SELECT * FROM items WHERE item_id = ?`, [id], (err, result) => {
     if (err) {
       return res.status(500).send({
         status: 500,
@@ -197,7 +197,7 @@ app.delete('/api/deleteItems', function(req, res) {
     });
   }
   const placeholders = ids.map(() => '?').join(',');
-  const sql = `DELETE FROM items WHERE id IN (${placeholders})`;
+  const sql = `DELETE FROM items WHERE item_id IN (${placeholders})`;
   conn.query(sql, ids, (err, result) => {
     if (err) {
       if (err.code === "ER_NO_REFERENCED_ROW_2") {
