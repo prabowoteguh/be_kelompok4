@@ -42,6 +42,17 @@ app.listen(PORT, () => {
     console.log(`Server berjalan pada port ${PORT}`);
 });
 
+app.get('/', (req, res) => {
+  res.status(200).json({ 
+    name: "API Kelompok 4 BOBA",
+    version: "1.0",
+    author: "All team 4 member",
+    info: {
+
+    },  
+  });
+});
+
 //view all items
 app.get('/api/items', (req, res) => {
   const sql = 'SELECT * FROM items';
